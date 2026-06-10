@@ -805,6 +805,14 @@ def home():
                 setInterval(render, 1000);
             }}
 
+            function updateClock() {{
+                const now = new Date();
+                document.getElementById('live-clock').textContent =
+                    String(now.getHours()).padStart(2, '0') + ':' +
+                    String(now.getMinutes()).padStart(2, '0') + ':' +
+                    String(now.getSeconds()).padStart(2, '0');
+            }}
+
             const SOMMERFERIE_START_ISO = "{SOMMERFERIE_START.isoformat()}";
 
             function renderSummerFunStats() {{
@@ -841,6 +849,8 @@ def home():
                 bindCountdown('school-days-countdown', {{ showDays: true, expiredText: '0d 0t 0m 0s' }});
                 bindTeacherTimers();
                 renderSummerFunStats();
+                updateClock();
+                setInterval(updateClock, 1000);
             }};
         </script>
     </head>
@@ -848,7 +858,7 @@ def home():
         <div class="page">
             <h1>Skole Dashboard</h1>
             <div class="subtitle">
-                {dagens_navn} • {format_dato(nu.date())} kl. {nu.strftime("%H:%M:%S")}
+                {dagens_navn} • {format_dato(nu.date())} kl. <span id="live-clock">{nu.strftime("%H:%M:%S")}</span>
             </div>
 
             <div class="grid">
